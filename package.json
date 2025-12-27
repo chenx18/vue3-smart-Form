@@ -1,0 +1,44 @@
+{
+  "name": "vue3-smart-form",
+  "version": "0.0.1",
+  "description": "基于 Vue3 + Element Plus 的配置驱动式搜索表单组件",
+  "keywords": [
+    "vue",
+    "vue3",
+    "element-plus",
+    "form",
+    "search-form",
+    "configuration-driven"
+  ],
+  "author": "azdome",
+  "license": "MIT",
+  "main": "index.ts",
+  "module": "index.ts",
+  "types": "index.ts",
+  "files": [
+    "index.ts",
+    "index.vue",
+    "types.ts",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "element-plus": "^2.0.0",
+    "@vueuse/core": "^10.0.0"
+  },
+  "devDependencies": {
+    "vue": "^3.0.0",
+    "element-plus": "^2.0.0",
+    "@vueuse/core": "^10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/vue-search-form.git"
+  },
+  "homepage": "https://github.com/your-org/vue-search-form#readme",
+  "bugs": {
+    "url": "https://github.com/your-org/vue-search-form/issues"
+  }
+}
