@@ -58,7 +58,7 @@
 
         <!-- 操作按钮 -->
         <el-col v-if="(buttons && buttons.length > 0) || $slots.buttons" v-bind="getColProps()">
-          <el-form-item>
+          <el-form-item label-width="0">
             <template v-for="(btn, index) in buttons" :key="index">
               <el-button
                 v-if="btn.show !== false"

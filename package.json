@@ -1,6 +1,6 @@
 {
   "name": "vue3-search-form",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "基于 Vue3 + Element Plus 的配置驱动式搜索表单组件",
   "keywords": [
     "vue",
