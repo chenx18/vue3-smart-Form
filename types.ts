@@ -24,6 +24,18 @@ export interface SelectOption {
 }
 
 /**
+ * 栅格配置
+ */
+export interface ColConfig {
+  span?: number      // 默认占比 (1-24)
+  xs?: number        // <768px
+  sm?: number        // ≥768px
+  md?: number        // ≥992px
+  lg?: number        // ≥1200px
+  xl?: number        // ≥1920px
+}
+
+/**
  * 表单项配置
  */
 export interface FormItemConfig {
@@ -37,6 +49,8 @@ export interface FormItemConfig {
   show?: boolean
   /** 默认值 */
   value?: any
+  /** 栅格配置，不传则使用全局 defaultCol */
+  col?: ColConfig
   /** 下拉选项（仅 type 为 select 时有效） */
   options?: SelectOption[] | (() => SelectOption[])
   /** 选项数组来源的响应式数据引用（仅 type 为 select 时有效） */
@@ -90,7 +104,9 @@ export interface SearchFormProps {
   formItems: FormConfig
   /** 表单标签宽度，默认 80px */
   labelWidth?: string
-  /** 是否行内表单，默认 true */
+  /** 默认栅格配置，应用于所有未单独配置 col 的表单项 */
+  defaultCol?: ColConfig
+  /** 是否行内表单，默认 false（使用栅格布局） */
   inline?: boolean
   /** 表单样式 */
   formStyle?: Record<string, any>
@@ -100,15 +116,6 @@ export interface SearchFormProps {
   buttons?: ButtonConfig[]
   /** el-form 原生属性 */
   formProps?: Record<string, any>
-  /** 响应式配置 */
-  responsive?: {
-    /** 是否启用响应式换行，默认 false */
-    wrap?: boolean
-    /** 换行断点（屏幕宽度小于此值时换行），单位 px，默认 1200 */
-    breakpoint?: number
-    /** 每行显示的最大表单项数量，默认 4 */
-    maxItemsPerRow?: number
-  }
 }
 
 /**

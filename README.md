@@ -25,7 +25,7 @@
 - 🔘 **自定义按钮**：支持配置自定义操作按钮
 - 🔧 **灵活扩展**：支持自定义插槽组件
 - 📊 **响应式数据**：自动管理表单数据状态
-- 📱 **响应式换行**：支持根据屏幕宽度自动换行
+- 📱 **栅格布局**：基于 el-row/el-col 的响应式栅格系统，自动适配不同屏幕
 - ⚡ **事件透明**：完全透明传递所有原生事件，无内部拦截
 - ✅ **完全兼容**：支持所有 Element Plus 原生属性和事件
 - 🎯 **TypeScript**：完整的类型定义，类型安全
@@ -315,22 +315,25 @@ const buttons = [
 |--------|------|--------|------|
 | formItems | `FormConfig` | - | 表单项配置（支持对象或数组格式，必填） |
 | labelWidth | `string` | `'80px'` | 表单标签宽度 |
-| inline | `boolean` | `true` | 是否行内表单 |
+| defaultCol | `ColConfig` | `{ xs: 24, sm: 12, md: 8, lg: 6, xl: 6 }` | 默认栅格配置，应用于所有未单独配置 col 的表单项 |
+| inline | `boolean` | `false` | 是否行内表单（true 时不使用栅格布局） |
 | formStyle | `object` | - | 表单样式 |
 | formClass | `string` | - | 表单类名 |
 | buttons | `ButtonConfig[]` | `[]` | 按钮配置（配置形式） |
 | formProps | `object` | `{}` | el-form 原生属性 |
-| responsive | `object` | - | 响应式配置 |
 
 > 💡 **设计理念**：完全配置驱动，表单项和按钮均通过配置管理，保持 API 简洁统一。
 
-#### 响应式配置 (responsive)
+#### 栅格配置 (ColConfig)
 
 | 参数名 | 类型 | 默认值 | 说明 |
 |--------|------|--------|------|
-| wrap | `boolean` | `false` | 是否启用响应式换行 |
-| breakpoint | `number` | `1200` | 换行断点（屏幕宽度小于此值时换行），单位 px |
-| maxItemsPerRow | `number` | `4` | 每行显示的最大表单项数量 |
+| span | `number` | - | 默认占比 (1-24) |
+| xs | `number` | `24` | <768px 时的占比 |
+| sm | `number` | `12` | ≥768px 时的占比 |
+| md | `number` | `8` | ≥992px 时的占比 |
+| lg | `number` | `6` | ≥1200px 时的占比 |
+| xl | `number` | `6` | ≥1920px 时的占比 |
 
 ### Events
 
@@ -344,6 +347,8 @@ const buttons = [
 |--------|------|--------|------|
 | getFormData | - | `FormData` | 获取当前表单数据 |
 | reset | - | - | 手动触发重置（并触发 reset 事件） |
+| setFieldValue | `(key: string, value: any)` | - | 设置单个字段的值 |
+| setFieldsValue | `(values: Record<string, any>)` | - | 批量设置字段的值 |
 | formRef | - | `FormInstance` | Element Plus 表单实例引用 |
 
 ## 表单项配置 (FormItemConfig)
@@ -355,6 +360,7 @@ const buttons = [
 | label | `string` | - | 标签文本 |
 | show | `boolean` | `true` | 是否显示 |
 | value | `any` | - | 默认值 |
+| col | `ColConfig` | - | 栅格配置，不传则使用全局 defaultCol |
 | options | `array \| function` | - | 下拉选项（仅 select） |
 | optionsRef | `string` | - | 选项数组来源的响应式数据引用（仅 select） |
 | component | `Component \| { render: () => VNode }` | - | 自定义渲染组件（仅 slot） |
@@ -742,75 +748,71 @@ const fetchData = async (params) => {
 
 ## 高级用法
 
-### 响应式换行
+### 栅格布局
 
-当屏幕宽度小于指定断点时，表单项会自动换行显示，提升移动端或小屏幕的体验。
+组件默认使用 `el-row` + `el-col` 栅格系统，自动适配不同屏幕尺寸。
 
 ```vue
 <template>
+  <!-- 使用默认栅格配置：小屏1个/行，中屏3个，大屏4个 -->
   <SearchForm
-    ref="searchFormRef"
     :form-items="formItems"
     :buttons="buttons"
-    :responsive="{
-      wrap: true,          // 启用响应式换行
-      breakpoint: 1200,    // 屏幕宽度小于 1200px 时换行
-      maxItemsPerRow: 3    // 每行最多显示 3 个表单项
-    }"
+  />
+
+  <!-- 自定义全局栅格配置 -->
+  <SearchForm
+    :form-items="formItems"
+    :default-col="{ xs: 24, sm: 12, md: 12, lg: 8, xl: 6 }"
   />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import SearchForm from '/vue3-smart-form'
-import { FormItemType } from '/vue3-smart-form'
+import SearchForm from 'vue3-smart-form'
+import { FormItemType } from 'vue3-smart-form'
 
 const searchFormRef = ref()
 
-const formItems = {
-  keyword: {
-    type: FormItemType.INPUT,
-    label: '关键字'
+const formItems = [
+  { key: 'keyword', type: FormItemType.INPUT, label: '关键字' },
+  { key: 'status', type: FormItemType.SELECT, label: '状态', options: [...] },
+  // 某个字段需要占更宽，单独配置 col
+  { 
+    key: 'remark', 
+    type: FormItemType.INPUT, 
+    label: '备注',
+    col: { xs: 24, sm: 24, md: 12, lg: 12 }  // 占两列宽度
   },
-  status: {
-    type: FormItemType.SELECT,
-    label: '状态',
-    options: [
-      { label: '启用', value: 1 },
-      { label: '禁用', value: 0 }
-    ]
-  },
-  createTime: {
+  // 日期范围通常需要更宽
+  {
+    key: 'dateRange',
     type: FormItemType.DATE_RANGE,
-    label: '创建时间'
+    label: '创建时间',
+    col: { xs: 24, sm: 24, md: 12, lg: 8 }
   }
-  // ... 更多表单项
-}
+]
 
 const buttons = [
   {
     text: '搜索',
     type: 'primary',
-    icon: 'Search',
-    onClick: () => {
-      const data = searchFormRef.value?.getFormData()
-      console.log('搜索参数：', data)
-    }
+    onClick: () => console.log(searchFormRef.value?.getFormData())
   },
   {
     text: '重置',
-    icon: 'Refresh',
     onClick: () => searchFormRef.value?.reset()
   }
 ]
 </script>
 ```
 
-**说明：**
-- `wrap: true` 启用响应式换行功能
-- `breakpoint: 1200` 表示当窗口宽度小于 1200px 时，表单项会自动换行
-- `maxItemsPerRow: 3` 表示换行后每行最多显示 3 个表单项
-- 换行时，`inline` 属性会自动设为 `false`，确保表单项垂直排列
+**栅格断点说明：**
+- `xs`: <768px（手机）
+- `sm`: ≥768px（平板）
+- `md`: ≥992px（小屏桌面）
+- `lg`: ≥1200px（桌面）
+- `xl`: ≥1920px（大屏）
 
 ### 动态控制表单项显示
 
@@ -862,6 +864,36 @@ const handleAppChange = (value) => {
   // 显示话题选择器
   formItems.topicId.show = !!value
 }
+</script>
+```
+
+### 编程式设置表单值
+
+```vue
+<script setup lang="ts">
+const searchFormRef = ref()
+
+// 设置单个字段
+const setKeyword = () => {
+  searchFormRef.value?.setFieldValue('keyword', '默认关键字')
+}
+
+// 批量设置字段
+const setDefaultValues = () => {
+  searchFormRef.value?.setFieldsValue({
+    keyword: '测试',
+    status: 1,
+    dateRange: ['2024-01-01', '2024-12-31']
+  })
+}
+
+// 从 URL 参数回填表单
+onMounted(() => {
+  const query = route.query
+  if (Object.keys(query).length > 0) {
+    searchFormRef.value?.setFieldsValue(query)
+  }
+})
 </script>
 ```
 

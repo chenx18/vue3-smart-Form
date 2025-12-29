@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.2] - 2025-12-29
+
+### Changed
+- 🔄 **布局系统重构**：移除 `responsive` 配置，改用 `el-row` + `el-col` 栅格系统
+- 🔄 新增 `defaultCol` 全局栅格配置，默认 `{ xs: 24, sm: 12, md: 8, lg: 6, xl: 6 }`
+- 🔄 每个表单项支持单独配置 `col` 覆盖全局设置
+- 🔄 表单控件宽度改为 `100%`，自动撑满栅格
+- 🔄 `inline` 默认值改为 `false`（使用栅格布局）
+
+### Added
+- ✨ 新增 `setFieldValue(key, value)` 方法：设置单个字段的值
+- ✨ 新增 `setFieldsValue(values)` 方法：批量设置字段的值
+- ✨ 新增 `ColConfig` 类型定义
+
+### Removed
+- 🗑️ 移除 `responsive` 配置（wrap、breakpoint、maxItemsPerRow）
+- 🗑️ 移除 `itemWidth` 配置
+- 🗑️ 移除 `@vueuse/core` 依赖
+
 ## [0.0.1] - 2025-12-27
 
 ### Added

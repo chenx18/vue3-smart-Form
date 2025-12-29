@@ -1,6 +1,6 @@
 {
   "name": "vue3-search-form",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "基于 Vue3 + Element Plus 的配置驱动式搜索表单组件",
   "keywords": [
     "vue",
@@ -32,13 +32,11 @@
   },
   "peerDependencies": {
     "vue": "^3.0.0",
-    "element-plus": "^2.0.0",
-    "@vueuse/core": "^10.0.0"
+    "element-plus": "^2.0.0"
   },
   "devDependencies": {
     "vue": "^3.0.0",
-    "element-plus": "^2.0.0",
-    "@vueuse/core": "^10.0.0"
+    "element-plus": "^2.0.0"
   },
   "repository": {
     "type": "git",
