@@ -1,5 +1,5 @@
 {
-  "name": "vue3-smart-form",
+  "name": "vue3-search-form",
   "version": "0.0.1",
   "description": "基于 Vue3 + Element Plus 的配置驱动式搜索表单组件",
   "keywords": [
@@ -8,13 +8,16 @@
     "element-plus",
     "form",
     "search-form",
-    "configuration-driven"
+    "configuration-driven",
+    "配置驱动",
+    "表单组件",
+    "组件库"
   ],
-  "author": "azdome",
+  "author": "chenx18",
   "license": "MIT",
   "main": "index.ts",
   "module": "index.ts",
-  "types": "index.ts",
+  "types": "types.ts",
   "files": [
     "index.ts",
     "index.vue",
@@ -23,6 +26,10 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "peerDependencies": {
     "vue": "^3.0.0",
     "element-plus": "^2.0.0",
@@ -35,10 +42,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/vue-search-form.git"
+    "url": "https://github.com/chenx18/vue3-smart-Form"
   },
-  "homepage": "https://github.com/your-org/vue-search-form#readme",
+  "homepage": "https://github.com/chenx18/vue3-smart-Form#readme",
   "bugs": {
-    "url": "https://github.com/your-org/vue-search-form/issues"
+    "url": "https://github.com/chenx18/vue3-smart-Form/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "prepublish": "node pre-publish-check.js",
+    "pub": "npm publish",
+    "pub:patch": "npm version patch && npm publish",
+    "pub:minor": "npm version minor && npm publish",
+    "pub:major": "npm version major && npm publish",
+    "check": "node pre-publish-check.js"
   }
 }

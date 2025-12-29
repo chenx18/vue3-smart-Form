@@ -5,6 +5,8 @@ example.vue
 .vscode
 .idea
 *.log
+.git
+.gitignore
 
 # 测试文件
 *.test.ts
@@ -16,3 +18,4 @@ coverage
 node_modules
 dist
 .DS_Store
+*.local
