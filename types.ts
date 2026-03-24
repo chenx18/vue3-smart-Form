@@ -49,6 +49,7 @@ export interface FormItemConfig {
   show?: boolean
   /** 默认值 */
   value?: any
+  trim?: boolean
   /** 栅格配置，不传则使用全局 defaultCol */
   col?: ColConfig
   /** 下拉选项（仅 type 为 select 时有效） */

@@ -360,6 +360,7 @@ const buttons = [
 | label | `string` | - | 标签文本 |
 | show | `boolean` | `true` | 是否显示 |
 | value | `any` | - | 默认值 |
+| trim | `boolean` | `true` | 是否自动去除输入框首尾空格（仅 `input` 生效） |
 | col | `ColConfig` | - | 栅格配置，不传则使用全局 defaultCol |
 | options | `array \| function` | - | 下拉选项（仅 select） |
 | optionsRef | `string` | - | 选项数组来源的响应式数据引用（仅 select） |

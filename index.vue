@@ -21,7 +21,8 @@
               v-bind="item.itemProps"
             >
               <template v-if="item.type === FormItemType.INPUT">
-                <el-input v-model="formData[item.key]" v-bind="item.props" />
+                <el-input v-if="item.trim !== false" v-model.trim="formData[item.key]" v-bind="item.props" />
+                <el-input v-else v-model="formData[item.key]" v-bind="item.props" />
               </template>
               <template v-else-if="item.type === FormItemType.INPUT_NUMBER">
                 <el-input-number v-model="formData[item.key]" v-bind="item.props" />
@@ -84,7 +85,10 @@
             :prop="item.key"
             v-bind="item.itemProps"
           >
-            <el-input v-if="item.type === FormItemType.INPUT" v-model="formData[item.key]" v-bind="item.props" />
+            <template v-if="item.type === FormItemType.INPUT">
+              <el-input v-if="item.trim !== false" v-model.trim="formData[item.key]" v-bind="item.props" />
+              <el-input v-else v-model="formData[item.key]" v-bind="item.props" />
+            </template>
             <el-input-number v-else-if="item.type === FormItemType.INPUT_NUMBER" v-model="formData[item.key]" v-bind="item.props" />
             <el-select v-else-if="item.type === FormItemType.SELECT" v-model="formData[item.key]" v-bind="item.props">
               <el-option
